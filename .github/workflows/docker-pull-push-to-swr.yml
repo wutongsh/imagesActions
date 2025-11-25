@@ -15,6 +15,16 @@ on:
         required: true
         type: string
         default: 'latest' # 默认标签为latest
+      push_image_name:
+        description: '要推送的镜像名称（如nginx、mysql、my-private-image）'
+        required: true
+        type: string
+        default: 'nginx' # 默认拉取nginx镜像
+      push_image_tag:
+        description: '要推送的镜像标签（如latest、1.25.3）'
+        required: true
+        type: string
+        default: 'latest' # 默认标签为latest
 
 # 工作流任务
 jobs:
@@ -30,7 +40,7 @@ jobs:
       DOCKER_IMAGE: ${{ github.event.inputs.docker_image_name }}
       DOCKER_TAG: ${{ github.event.inputs.docker_image_tag }}
       # 拼接SWR的目标镜像地址
-      SWR_TARGET_IMAGE: ${{ secrets.SWR_REGISTRY }}/${{ secrets.SWR_ORG }}/${{ github.event.inputs.docker_image_name }}:${{ github.event.inputs.docker_image_tag }}
+      SWR_TARGET_IMAGE: ${{ secrets.SWR_REGISTRY }}/${{ secrets.SWR_ORG }}/${{ github.event.inputs.push_image_name }}:${{ github.event.inputs.push_image_tag }}
 
     steps:
       # 步骤1：检出仓库（虽无需代码，但GitHub Actions默认建议执行，可省略）
